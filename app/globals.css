@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-heading: var(--font-oswald), 'Oswald', 'Arial Narrow', sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-steel: var(--steel);
+  --color-asphalt: var(--asphalt);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+
+  --ease-heavy: cubic-bezier(0.22, 1.25, 0.36, 1);
+}
+
+:root {
+  color-scheme: dark;
+  /* Preto asfalto */
+  --background: oklch(0.17 0.004 260);
+  --asphalt: oklch(0.13 0.004 260);
+  --foreground: oklch(0.97 0 0);
+  /* Cinza chumbo */
+  --card: oklch(0.23 0.005 260);
+  --card-foreground: oklch(0.97 0 0);
+  --steel: oklch(0.3 0.006 260);
+  --popover: oklch(0.21 0.005 260);
+  --popover-foreground: oklch(0.97 0 0);
+  /* Amarelo Caterpillar */
+  --primary: oklch(0.86 0.18 88);
+  --primary-foreground: oklch(0.15 0.01 80);
+  --secondary: oklch(0.3 0.006 260);
+  --secondary-foreground: oklch(0.97 0 0);
+  --muted: oklch(0.27 0.005 260);
+  --muted-foreground: oklch(0.72 0.006 260);
+  --accent: oklch(0.86 0.18 88);
+  --accent-foreground: oklch(0.15 0.01 80);
+  --destructive: oklch(0.6 0.22 27);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.86 0.18 88);
+  --radius: 0.25rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading uppercase tracking-tight;
+  }
+}
+
+@layer utilities {
+  /* Textura sutil de asfalto/aço escovado */
+  .texture-asphalt {
+    background-image:
+      radial-gradient(oklch(1 0 0 / 3%) 1px, transparent 1px),
+      radial-gradient(oklch(1 0 0 / 2%) 1px, transparent 1px);
+    background-size: 7px 7px, 11px 11px;
+    background-position: 0 0, 3px 4px;
+  }
+  .texture-steel {
+    background-image: repeating-linear-gradient(
+      90deg,
+      oklch(1 0 0 / 0%) 0px,
+      oklch(1 0 0 / 2.5%) 1px,
+      oklch(1 0 0 / 0%) 2px,
+      oklch(1 0 0 / 0%) 5px
+    );
+  }
+  /* Listras de sinalização */
+  .hazard-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--primary) 0 16px,
+      var(--asphalt) 16px 32px
+    );
+  }
+  /* Botão que "acende" como farol de caminhão */
+  .btn-headlamp {
+    transition:
+      box-shadow 0.35s var(--ease-heavy),
+      transform 0.35s var(--ease-heavy),
+      filter 0.35s var(--ease-heavy);
+  }
+  .btn-headlamp:hover {
+    filter: brightness(1.12);
+    box-shadow:
+      0 0 0 2px oklch(0.86 0.18 88 / 60%),
+      0 0 32px 4px oklch(0.86 0.18 88 / 45%),
+      0 18px 30px -12px oklch(0 0 0 / 70%);
+    transform: translateY(-2px);
+  }
+  .btn-headlamp:active {
+    transform: translateY(1px);
+    box-shadow: 0 0 0 2px oklch(0.86 0.18 88 / 80%);
+  }
+  /* Sombra pesada de bloco de concreto */
+  .shadow-concrete {
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 8%),
+      0 14px 0 -6px var(--asphalt),
+      0 28px 40px -20px oklch(0 0 0 / 80%);
+  }
+  .ken-burns {
+    animation: ken-burns 24s ease-in-out infinite alternate;
+  }
+  .animate-pulse-ring::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    opacity: 0.6;
+    animation: pulse-ring 2s var(--ease-heavy) infinite;
+    z-index: -1;
+  }
+}
+
+@keyframes ken-burns {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.12) translate(-1.5%, 1%); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
